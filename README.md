@@ -21,7 +21,7 @@ Scopul aplicației este de a oferi o soluție simplă pentru organizarea și viz
 
 - **Limbaj:** C++ 
 - **Biblioteci standard:** iostream, vector, string, algorithm, iomanip, fstream, sstream
-- **Tools:** Git, GitHub
+- **Tools:** Git, GitHub, VS , Dockerfile 
 
 ## Cerințe sistem
 

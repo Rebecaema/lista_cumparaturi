@@ -4,8 +4,12 @@
 #include <sstream>
 #include <algorithm>
 #include <iomanip>
+#include <fstream>
 
 using namespace std;
+
+// Structura care descrie un articol din lista de cumparaturi
+// Contine numele produsului, cantitatea, pretul unitar si categoria
 
 struct Articol {
     string nume;
@@ -13,6 +17,9 @@ struct Articol {
     double pretUnitar;
     string categorie;
 };
+
+// Afiseaza toate comenzile disponibile pentru utilizator
+// Este apelata cand utilizatorul scrie "help"
 
 void printHelp() {
     cout << "Comenzi disponibile:\n";
@@ -26,11 +33,18 @@ void printHelp() {
     cout << "  exit\n";
 }
 
+// Verifica daca datele introduse pentru un articol sunt valide
+// Cantitatea trebuie sa fie > 0
+// Pretul trebuie sa fie >= 0
+
 bool validArticol(int cantitate, double pret) {
     if (cantitate <= 0) return false;
     if (pret < 0) return false;
     return true;
 }
+
+// Adauga un articol nou in lista daca datele sunt valide
+// Daca datele sunt gresite, afiseaza mesaj de eroare
 
 void addArticol(vector<Articol>& articole, const string& nume, int cantitate, double pret, const string& categorie) {
     if (!validArticol(cantitate, pret)) {
@@ -47,6 +61,9 @@ void addArticol(vector<Articol>& articole, const string& nume, int cantitate, do
     articole.push_back(a);
     cout << "Articol adaugat.\n";
 }
+
+// Sterge toate articolele care au un anumit nume
+// Foloseste remove_if pentru a elimina din vector
 
 void deleteByName(vector<Articol>& articole, const string& nume) {
     auto oldSize = articole.size();
@@ -72,6 +89,9 @@ void printHeader() {
         << setw(12) << "Total" << "\n";
     cout << string(64, '-') << "\n";
 }
+
+// Afiseaza articolele din lista
+// Optional le poate sorta dupa nume, pret sau categorie
 
 void listArticole(const vector<Articol>& articole, const string& sortKey) {
     vector<Articol> v = articole; // copie pentru sortare
@@ -103,6 +123,8 @@ void listArticole(const vector<Articol>& articole, const string& sortKey) {
     }
 }
 
+// Afiseaza doar articolele dintr-o anumita categorie
+
 void filterByCategory(const vector<Articol>& articole, const string& categorie) {
     vector<Articol> filtered;
     for (const auto& a : articole) {
@@ -116,6 +138,8 @@ void filterByCategory(const vector<Articol>& articole, const string& categorie) 
 
     listArticole(filtered, "nume");   // le sortam dupa nume
 }
+
+// Calculeaza costul total al tuturor articolelor
 
 void printTotals(const vector<Articol>& articole) {
     if (articole.empty()) {
@@ -154,10 +178,29 @@ void printTotals(const vector<Articol>& articole) {
     }
 }
 
+// Exporta lista de articole intr-un fisier CSV
 
+bool exportCSV(const vector<Articol>& articole, const string& filename) {
+    ofstream out(filename);
+    if (!out.is_open()) return false;
 
+    out << "nume,cantitate,pret,categorie\n";
+    out << fixed << setprecision(2);
 
+    for (const auto& a : articole) {
+        out << a.nume << ","
+            << a.cantitate << ","
+            << a.pretUnitar << ","
+            << a.categorie << "\n";
+    }
 
+    out.close();
+    return true;
+}
+
+// Functia principala a programului
+// Citeste comenzi de la utilizator si le executa
+// Programul ruleaza pana cand utilizatorul scrie "exit"
 
 int main() {
     vector<Articol> articole;
@@ -189,7 +232,7 @@ int main() {
                 cout << "Utilizare: add <nume> <cantitate> <pret> <categorie>\n";
             }
             else {
-                addArticol(articole, nume, cantitate, pret, categorie);
+                addArticol(articole, nume, cantitate, pret, categorie);  //adauga un articol in lista
             }
         }
         else if (cmd == "exit") {
@@ -204,7 +247,7 @@ int main() {
                 cout << "Utilizare: del <nume>\n";
             }
             else {
-                deleteByName(articole, nume);
+                deleteByName(articole, nume);        //sterge un articol din lista
             }
         }
         else if (cmd == "list") {
@@ -219,7 +262,7 @@ int main() {
                     sortKey = opt.substr(5);
                 }
                 else {
-                    cout << "Utilizare: list [sort=nume|pret|categorie]\n";
+                    cout << "Utilizare: list [sort=nume|pret|categorie]\n";     //afiseaza lista in functie de nume/pret/categorie
                     continue;
                 }
             }
@@ -231,18 +274,39 @@ int main() {
             ss >> categorie;
 
             if (categorie.empty()) {
-                cout << "Utilizare: filter <categorie>\n";
+                cout << "Utilizare: filter <categorie>\n";                    //afiseaza lista dupa o anumita categorie
             }
             else {
                 filterByCategory(articole, categorie);
             }
         }
         else if (cmd == "total") {
-            printTotals(articole);
-		}
-		else {
-			cout << "Comanda necunoscuta. Tasteaza 'help' pentru lista de comenzi.\n";
-		}
+            printTotals(articole);                                           //calculeaza totalul 
+        }
+        else if (cmd == "export") {
+            string filename;
+            ss >> filename;
+
+            if (filename.empty()) {
+                cout << "Utilizare: export <fisier.csv>\n";                 //lista este exportata intr un fisier CSV
+            }
+            else {
+                if (exportCSV(articole, filename)) {
+                    cout << "Export realizat in '" << filename << "'.\n";
+                }
+                else {
+                    cout << "Eroare la export. Verifica numele fisierului.\n";
+                }
+            }
+        }
+            else if (cmd == "exit") {
+                    cout << "La revedere!\n";
+                    break;
+            }
+            else {
+                     cout << "Comanda necunoscuta. Tasteaza 'help' pentru lista de comenzi.\n";
+            }
+        }
 
        return 0;
 
