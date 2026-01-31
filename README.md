@@ -138,12 +138,14 @@ Funcționalități implementate in codul nostru:
 ## Structura proiectului
 
 project/
-├── src/
-│   └── program.cpp   – codul sursă
-├── csv/              – fișierele exportate în format CSV
-├── README.md         -documentatie completa
-├── .gitignore        -fisier de ignorat
-└── Dockerfile        -contaneizare
+├── .github/
+│   └── workflows/
+│       └── build.yml  
+├── Dockerfile     -configuratie Docker 
+├── program.cpp    -codul sursa
+├── README.md      -documentatia proiectului
+├── .gitignore     -ignorare fisiere
+├── csv/           -folder pentru fisiere csv exportate
 
 ## Decizii de design
 
@@ -232,3 +234,4 @@ Proiect educațional realizat pentru facultate.
 Pentru întrebări: 
 email: rebeca-emanuela.stancioni@student.upt.ro
 
+Multumesc!
