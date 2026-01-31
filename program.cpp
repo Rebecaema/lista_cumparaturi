@@ -1,10 +1,11 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <sstream>
-#include <algorithm>
-#include <iomanip>
-#include <fstream>
+#include <iostream>  // iostream  - pentru citire/afisare in consola (cin, cout)
+#include <vector> // vector    - pentru lista dinamica de articole (vector<Articol>)
+#include <string> // string    - pentru lucrul cu texte (nume, categorie)
+#include <sstream> // sstream   - pentru a sparge linia citita in comanda + argumente (stringstream)
+#include <algorithm> // algorithm - pentru sort, find, remove_if (sortare, cautare, stergere)
+
+#include <iomanip> // iomanip   - pentru afisare formatata (setw, setprecision, fixed)
+#include <fstream> // fstream   - pentru lucrul cu fisiere (ofstream la export CSV)
 
 using namespace std;
 

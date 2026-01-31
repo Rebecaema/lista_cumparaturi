@@ -130,6 +130,7 @@
     <ClCompile Include="program.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="build.yml" />
     <None Include="Dockerfile" />
     <None Include="README.md" />
   </ItemGroup>
