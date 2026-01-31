@@ -218,6 +218,7 @@ docker build -t lista_cumparaturi .
 Rulare container Docker :
 docker run -it --rm lista_cumparaturi
 
+Docker image published via GitHub Actions.
 
 ## Resurse folosite
 
