@@ -117,6 +117,44 @@ void filterByCategory(const vector<Articol>& articole, const string& categorie) 
     listArticole(filtered, "nume");   // le sortam dupa nume
 }
 
+void printTotals(const vector<Articol>& articole) {
+    if (articole.empty()) {
+        cout << "Lista este goala.\n";
+        return;
+    }
+
+    double totalGeneral = 0.0;
+
+    // pastram subtotal pe categorii 
+    vector<string> categorii;
+    vector<double> subtotaluri;
+
+    for (const auto& a : articole) {
+        double t = a.cantitate * a.pretUnitar;
+        totalGeneral += t;
+
+        // cauta categoria
+        auto it = find(categorii.begin(), categorii.end(), a.categorie);
+        if (it == categorii.end()) {
+            categorii.push_back(a.categorie);
+            subtotaluri.push_back(t);
+        }
+        else {
+            int idx = (int)(it - categorii.begin());
+            subtotaluri[idx] += t;
+        }
+    }
+
+    cout << fixed << setprecision(2);
+    cout << "Total general: " << totalGeneral << "\n";
+    cout << "Subtotaluri pe categorii:\n";
+
+    for (size_t i = 0; i < categorii.size(); i++) {
+        cout << "  " << categorii[i] << ": " << subtotaluri[i] << "\n";
+    }
+}
+
+
 
 
 
@@ -199,7 +237,13 @@ int main() {
                 filterByCategory(articole, categorie);
             }
         }
+        else if (cmd == "total") {
+            printTotals(articole);
+		}
+		else {
+			cout << "Comanda necunoscuta. Tasteaza 'help' pentru lista de comenzi.\n";
+		}
 
-            return 0;
+       return 0;
 
     }
