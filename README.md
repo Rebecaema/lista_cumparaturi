@@ -205,18 +205,14 @@ Pentru organizare, folosim folderul `csv/`.
 Exemplu:
 - `export csv/articole.csv`
 
-## Docker 
+## Rulare rapidă cu Docker
 
-Proiectul poate fi rulat și folosind Docker.
+Aplicația poate fi rulată rapid folosind Docker, fără a fi necesară compilarea locală.
 
-## Build imagine Docker
+### Comandă de rulare:
 
-Din folderul proiectului:
 ```bash
-docker build -t lista_cumparaturi .
-
-Rulare container Docker :
-docker run -it --rm lista_cumparaturi
+docker run -it rebecaema/lista_cumparaturi
 
 Docker image published via GitHub Actions.
 
