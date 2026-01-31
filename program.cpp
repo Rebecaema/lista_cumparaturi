@@ -48,6 +48,23 @@ void addArticol(vector<Articol>& articole, const string& nume, int cantitate, do
     cout << "Articol adaugat.\n";
 }
 
+void deleteByName(vector<Articol>& articole, const string& nume) {
+    auto oldSize = articole.size();
+    articole.erase(
+        remove_if(articole.begin(), articole.end(),
+            [&](const Articol& a) { return a.nume == nume; }),
+        articole.end()
+    );
+
+    if (articole.size() == oldSize) {
+        cout << "Nu s-a gasit niciun articol cu numele '" << nume << "'.\n";
+    }
+    else {
+        cout << "Articol(e) sters(e).\n";
+    }
+}
+
+
 
 int main() {
     vector<Articol> articole;
@@ -86,12 +103,23 @@ int main() {
             cout << "La revedere!\n";
             break;
         }
+        else if (cmd == "del") {
+           string nume;
+           ss >> nume;
+
+           if (nume.empty()) {
+               cout << "Utilizare: del <nume>\n";
+           }
+           else {
+                deleteByName(articole, nume);
+           }
+        }
         else {
             cout << "Comanda necunoscuta. Tasteaza 'help'.\n";
         }
     }
-
-      return 0;
+      
+     return 0;
 }
 
 
