@@ -64,6 +64,46 @@ void deleteByName(vector<Articol>& articole, const string& nume) {
     }
 }
 
+void printHeader() {
+    cout << left << setw(15) << "Nume"
+        << setw(10) << "Cant"
+        << setw(12) << "Pret"
+        << setw(15) << "Categorie"
+        << setw(12) << "Total" << "\n";
+    cout << string(64, '-') << "\n";
+}
+
+void listArticole(const vector<Articol>& articole, const string& sortKey) {
+    vector<Articol> v = articole; // copie pentru sortare
+
+    if (sortKey == "nume") {
+        sort(v.begin(), v.end(), [](const Articol& a, const Articol& b) { return a.nume < b.nume; });
+    }
+    else if (sortKey == "pret") {
+        sort(v.begin(), v.end(), [](const Articol& a, const Articol& b) { return a.pretUnitar < b.pretUnitar; });
+    }
+    else if (sortKey == "categorie") {
+        sort(v.begin(), v.end(), [](const Articol& a, const Articol& b) { return a.categorie < b.categorie; });
+    }
+
+    if (v.empty()) {
+        cout << "Lista este goala.\n";
+        return;
+    }
+
+    printHeader();
+    for (const auto& a : v) {
+        double total = a.cantitate * a.pretUnitar;
+        cout << left << setw(15) << a.nume
+            << setw(10) << a.cantitate
+            << setw(12) << fixed << setprecision(2) << a.pretUnitar
+            << setw(15) << a.categorie
+            << setw(12) << fixed << setprecision(2) << total
+            << "\n";
+    }
+}
+
+
 
 
 int main() {
@@ -114,10 +154,29 @@ int main() {
                 deleteByName(articole, nume);
            }
         }
+        else if (cmd == "list") {
+            string opt;
+            ss >> opt;           // poate fi gol sau sort
+            string sortKey = ""; // default: fara sortare
+
+            if (!opt.empty()) {
+                // asteptam format sort=ceva
+
+                if (opt.rfind("sort=", 0) == 0) {
+                    sortKey = opt.substr(5);
+                }
+                else {
+                    cout << "Utilizare: list [sort=nume|pret|categorie]\n";
+                    continue;
+                }
+            }
+
+            listArticole(articole, sortKey);
+        }
         else {
             cout << "Comanda necunoscuta. Tasteaza 'help'.\n";
+             }
         }
-    }
       
      return 0;
 }
