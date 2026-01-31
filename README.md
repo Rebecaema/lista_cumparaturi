@@ -16,3 +16,16 @@ Aplicația permite gestionarea unei liste de articole dintr-un magazin/aprozar.
 Utilizatorul poate introduce articole cu nume, cantitate, preț unitar și categorie, le poate șterge după nume, le poate afișa sortate, poate filtra după categorie și poate exporta lista într-un fișier CSV.
 
 Scopul aplicației este de a oferi o soluție simplă pentru organizarea și vizualizarea articolelor iar totodata a  costurilor asociate acestora.
+
+## Tehnologii folosite
+
+- **Limbaj:** C++ 
+- **Biblioteci standard:** iostream, vector, string, algorithm, iomanip, fstream, sstream
+- **Tools:** Git, GitHub
+
+## Cerințe sistem
+
+- Compilator C++ cu suport C++17 (g++, clang, MSVC)
+- Sistem de operare: Windows , IDE: Visual Studio
+- Nu există dependențe externe
+
