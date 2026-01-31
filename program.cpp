@@ -103,6 +103,21 @@ void listArticole(const vector<Articol>& articole, const string& sortKey) {
     }
 }
 
+void filterByCategory(const vector<Articol>& articole, const string& categorie) {
+    vector<Articol> filtered;
+    for (const auto& a : articole) {
+        if (a.categorie == categorie) filtered.push_back(a);
+    }
+
+    if (filtered.empty()) {
+        cout << "Nu exista articole in categoria '" << categorie << "'.\n";
+        return;
+    }
+
+    listArticole(filtered, "nume");   // le sortam dupa nume
+}
+
+
 
 
 
@@ -144,15 +159,15 @@ int main() {
             break;
         }
         else if (cmd == "del") {
-           string nume;
-           ss >> nume;
+            string nume;
+            ss >> nume;
 
-           if (nume.empty()) {
-               cout << "Utilizare: del <nume>\n";
-           }
-           else {
+            if (nume.empty()) {
+                cout << "Utilizare: del <nume>\n";
+            }
+            else {
                 deleteByName(articole, nume);
-           }
+            }
         }
         else if (cmd == "list") {
             string opt;
@@ -173,35 +188,18 @@ int main() {
 
             listArticole(articole, sortKey);
         }
-        else {
-            cout << "Comanda necunoscuta. Tasteaza 'help'.\n";
-             }
+        else if (cmd == "filter") {
+            string categorie;
+            ss >> categorie;
+
+            if (categorie.empty()) {
+                cout << "Utilizare: filter <categorie>\n";
+            }
+            else {
+                filterByCategory(articole, categorie);
+            }
         }
-      
-     return 0;
-}
 
+            return 0;
 
-
-
-
-
-
-
-
-
-
-
-int main() {
-
-	cout << "Lista de cumparaturi:\n";
-	cout << "Studenta Stancioni Rebeca\n";
-
-
-
-
-
-
-
-	return 0;
-}
+    }
