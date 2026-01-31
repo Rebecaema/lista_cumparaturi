@@ -26,6 +26,29 @@ void printHelp() {
     cout << "  exit\n";
 }
 
+bool validArticol(int cantitate, double pret) {
+    if (cantitate <= 0) return false;
+    if (pret < 0) return false;
+    return true;
+}
+
+void addArticol(vector<Articol>& articole, const string& nume, int cantitate, double pret, const string& categorie) {
+    if (!validArticol(cantitate, pret)) {
+        cout << "Date invalide! Cantitatea trebuie > 0, pretul >= 0.\n";
+        return;
+    }
+
+    Articol a;
+    a.nume = nume;
+    a.cantitate = cantitate;
+    a.pretUnitar = pret;
+    a.categorie = categorie;
+
+    articole.push_back(a);
+    cout << "Articol adaugat.\n";
+}
+
+
 int main() {
     vector<Articol> articole;
 
@@ -45,6 +68,20 @@ int main() {
         if (cmd == "help") {
             printHelp();
         }
+        else if (cmd == "add") {
+            string nume, categorie;
+            int cantitate;
+            double pret;
+
+            ss >> nume >> cantitate >> pret >> categorie;
+
+            if (nume.empty() || categorie.empty() || ss.fail()) {
+                cout << "Utilizare: add <nume> <cantitate> <pret> <categorie>\n";
+            }
+            else {
+                addArticol(articole, nume, cantitate, pret, categorie);
+            }
+        }
         else if (cmd == "exit") {
             cout << "La revedere!\n";
             break;
@@ -54,7 +91,7 @@ int main() {
         }
     }
 
-    return 0;
+      return 0;
 }
 
 
